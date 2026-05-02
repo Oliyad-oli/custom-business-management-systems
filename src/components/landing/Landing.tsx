@@ -15,7 +15,20 @@ import {
   Bell,
   Settings,
   Briefcase,
+  FileText,
+  Calendar,
+  CreditCard,
+  BarChart3,
+  MessageSquare,
+  Bot,
+  Plug,
+  Lock,
+  FileBarChart,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -27,8 +40,11 @@ export function Landing() {
         <Hero />
         <TrustBar />
         <Features />
+        <ExtraFeatures />
         <DashboardPreview />
         <Workflow />
+        <Pricing />
+        <FAQ />
         <WhyUs />
         <CTA />
       </main>
@@ -38,10 +54,18 @@ export function Landing() {
 }
 
 function Header() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: "#features", label: "Features" },
+    { href: "#preview", label: "Dashboard" },
+    { href: "#workflow", label: "Workflow" },
+    { href: "#pricing", label: "Pricing" },
+    { href: "#faq", label: "FAQ" },
+  ];
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-lg"
             style={{ background: "var(--gradient-primary)" }}
@@ -49,18 +73,57 @@ function Header() {
             <Briefcase className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-lg font-bold tracking-tight">Flowdesk</span>
-        </div>
+        </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#features" className="transition-colors hover:text-foreground">Features</a>
-          <a href="#preview" className="transition-colors hover:text-foreground">Dashboard</a>
-          <a href="#workflow" className="transition-colors hover:text-foreground">Workflow</a>
-          <a href="#why" className="transition-colors hover:text-foreground">Why us</a>
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="transition-colors hover:text-foreground">
+              {l.label}
+            </a>
+          ))}
         </nav>
-        <Button size="sm" className="shadow-sm">
-          Request Proposal
-          <ArrowRight className="ml-1 h-4 w-4" />
-        </Button>
+        <div className="hidden items-center gap-2 md:flex">
+          <Button asChild size="sm" variant="ghost">
+            <Link to="/login">Sign in</Link>
+          </Button>
+          <Button asChild size="sm" className="shadow-sm" style={{ background: "var(--gradient-primary)" }}>
+            <Link to="/signup">
+              Get started
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+        <button
+          className="md:hidden rounded-md border border-border p-2"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
       </div>
+      {open && (
+        <div className="border-t border-border bg-background md:hidden">
+          <div className="flex flex-col px-6 py-4">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                {l.label}
+              </a>
+            ))}
+            <div className="mt-2 flex gap-2">
+              <Button asChild size="sm" variant="outline" className="flex-1">
+                <Link to="/login">Sign in</Link>
+              </Button>
+              <Button asChild size="sm" className="flex-1" style={{ background: "var(--gradient-primary)" }}>
+                <Link to="/signup">Get started</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -99,15 +162,18 @@ function Hero() {
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
+            asChild
             size="lg"
             className="h-12 px-8 text-base shadow-lg"
             style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}
           >
-            Start your project
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <Link to="/signup">
+              Start free trial
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
-          <Button size="lg" variant="outline" className="h-12 px-8 text-base">
-            View live demo
+          <Button asChild size="lg" variant="outline" className="h-12 px-8 text-base">
+            <a href="#preview">View live demo</a>
           </Button>
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
@@ -492,12 +558,14 @@ function CTA() {
             scoping session and a tailored proposal within 48 hours.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg" variant="secondary" className="h-12 px-8 text-base font-semibold">
-              Get your proposal
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Button asChild size="lg" variant="secondary" className="h-12 px-8 text-base font-semibold">
+              <Link to="/signup">
+                Start free trial
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="h-12 border-white/30 bg-white/10 px-8 text-base text-primary-foreground hover:bg-white/20 hover:text-primary-foreground">
-              Schedule a call
+            <Button asChild size="lg" variant="outline" className="h-12 border-white/30 bg-white/10 px-8 text-base text-primary-foreground hover:bg-white/20 hover:text-primary-foreground">
+              <Link to="/login">Sign in</Link>
             </Button>
           </div>
         </div>
@@ -519,5 +587,155 @@ function Footer() {
         <p className="text-xs text-muted-foreground">© 2026 Flowdesk. Custom business management systems, built to scale.</p>
       </div>
     </footer>
+  );
+}
+
+function ExtraFeatures() {
+  const items = [
+    { icon: FileText, title: "Invoicing & Billing", desc: "Generate invoices, track payments, and send reminders automatically." },
+    { icon: Calendar, title: "Calendar & Scheduling", desc: "Plan jobs, appointments, and team availability in one shared view." },
+    { icon: CreditCard, title: "Payments & Quotes", desc: "Send quotes, accept online payments, and reconcile in real time." },
+    { icon: BarChart3, title: "Reports & Analytics", desc: "Custom reports on revenue, productivity, and customer health." },
+    { icon: MessageSquare, title: "Team Chat & Notes", desc: "Comment on jobs, mention teammates, and keep context in one place." },
+    { icon: Bot, title: "Automations", desc: "Trigger emails, status changes, and tasks based on smart rules." },
+    { icon: Plug, title: "Integrations", desc: "Connect Stripe, QuickBooks, Slack, Gmail, Zapier, and more." },
+    { icon: Lock, title: "Roles & Permissions", desc: "Granular access control so the right people see the right data." },
+    { icon: FileBarChart, title: "Document Storage", desc: "Attach contracts, photos, and files directly to jobs and customers." },
+  ];
+  return (
+    <section className="mx-auto max-w-7xl px-6 pb-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <Badge variant="outline" className="mb-4">Built-in for every business</Badge>
+        <h2 className="text-4xl font-bold tracking-tight md:text-5xl">More than a CRM</h2>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Every essential business workflow, in one cohesive platform.
+        </p>
+      </div>
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((f) => (
+          <div
+            key={f.title}
+            className="flex gap-4 rounded-2xl border border-border/60 bg-card p-5 transition-all hover:border-primary/30 hover:-translate-y-0.5"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <f.icon className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="font-semibold">{f.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const tiers = [
+    {
+      name: "Starter",
+      price: "$29",
+      desc: "For small teams getting organized.",
+      features: ["Up to 5 users", "Job & customer tracking", "Dashboard insights", "Email support"],
+      featured: false,
+    },
+    {
+      name: "Business",
+      price: "$79",
+      desc: "For growing teams that need more.",
+      features: ["Up to 25 users", "Invoicing & payments", "Automations", "Integrations", "Priority support"],
+      featured: true,
+    },
+    {
+      name: "Enterprise",
+      price: "Custom",
+      desc: "For organizations operating at scale.",
+      features: ["Unlimited users", "SSO & advanced roles", "Custom workflows", "Dedicated manager", "SLA & onboarding"],
+      featured: false,
+    },
+  ];
+  return (
+    <section id="pricing" className="border-y border-border/60 bg-secondary/30 py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <Badge variant="outline" className="mb-4">Pricing</Badge>
+          <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Simple, transparent pricing</h2>
+          <p className="mt-4 text-lg text-muted-foreground">Start free for 14 days. No credit card required.</p>
+        </div>
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
+          {tiers.map((t) => (
+            <div
+              key={t.name}
+              className={`relative rounded-2xl border bg-card p-8 transition-all ${
+                t.featured ? "border-primary/40 shadow-lg lg:-translate-y-2" : "border-border/60"
+              }`}
+              style={t.featured ? { boxShadow: "var(--shadow-elegant)" } : { boxShadow: "var(--shadow-card)" }}
+            >
+              {t.featured && (
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2" style={{ background: "var(--gradient-primary)" }}>
+                  Most popular
+                </Badge>
+              )}
+              <h3 className="text-lg font-semibold">{t.name}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{t.desc}</p>
+              <div className="mt-6 flex items-baseline gap-1">
+                <span className="text-5xl font-bold tracking-tight">{t.price}</span>
+                {t.price !== "Custom" && <span className="text-sm text-muted-foreground">/mo</span>}
+              </div>
+              <Button
+                asChild
+                className="mt-6 w-full"
+                variant={t.featured ? "default" : "outline"}
+                style={t.featured ? { background: "var(--gradient-primary)" } : undefined}
+              >
+                <Link to="/signup">{t.featured ? "Start free trial" : "Get started"}</Link>
+              </Button>
+              <ul className="mt-8 space-y-3 text-sm">
+                {t.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const items = [
+    { q: "Can the system be customized to our workflow?", a: "Yes — every module, status, and field is configurable, and we can build custom workflows tailored to your operations." },
+    { q: "Is my data secure?", a: "Absolutely. We use industry-standard encryption, role-based access, automated backups, and SOC 2-aligned practices." },
+    { q: "Can it integrate with the tools we already use?", a: "Yes — connect Stripe, QuickBooks, Slack, Gmail, Zapier, and more, or use our open API." },
+    { q: "How long does implementation take?", a: "Most teams are live within 2–4 weeks. Larger rollouts get a dedicated onboarding manager." },
+    { q: "Do you offer support and training?", a: "Yes — every plan includes documentation, in-app guides, and human support. Business and Enterprise plans get priority support." },
+  ];
+  return (
+    <section id="faq" className="mx-auto max-w-4xl px-6 py-24">
+      <div className="mx-auto max-w-2xl text-center">
+        <Badge variant="outline" className="mb-4">FAQ</Badge>
+        <h2 className="text-4xl font-bold tracking-tight md:text-5xl">Frequently asked questions</h2>
+      </div>
+      <div className="mt-12 space-y-3">
+        {items.map((it) => (
+          <details
+            key={it.q}
+            className="group rounded-xl border border-border/60 bg-card p-5 transition-colors open:border-primary/30"
+          >
+            <summary className="flex cursor-pointer items-center justify-between text-left font-medium">
+              {it.q}
+              <span className="ml-4 text-primary transition-transform group-open:rotate-45">+</span>
+            </summary>
+            <p className="mt-3 text-sm text-muted-foreground">{it.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
   );
 }
