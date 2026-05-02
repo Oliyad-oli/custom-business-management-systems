@@ -558,12 +558,14 @@ function CTA() {
             scoping session and a tailored proposal within 48 hours.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button size="lg" variant="secondary" className="h-12 px-8 text-base font-semibold">
-              Get your proposal
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Button asChild size="lg" variant="secondary" className="h-12 px-8 text-base font-semibold">
+              <Link to="/signup">
+                Start free trial
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="h-12 border-white/30 bg-white/10 px-8 text-base text-primary-foreground hover:bg-white/20 hover:text-primary-foreground">
-              Schedule a call
+            <Button asChild size="lg" variant="outline" className="h-12 border-white/30 bg-white/10 px-8 text-base text-primary-foreground hover:bg-white/20 hover:text-primary-foreground">
+              <Link to="/login">Sign in</Link>
             </Button>
           </div>
         </div>
