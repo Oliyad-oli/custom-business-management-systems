@@ -15,7 +15,20 @@ import {
   Bell,
   Settings,
   Briefcase,
+  FileText,
+  Calendar,
+  CreditCard,
+  BarChart3,
+  MessageSquare,
+  Bot,
+  Plug,
+  Lock,
+  FileBarChart,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -27,8 +40,11 @@ export function Landing() {
         <Hero />
         <TrustBar />
         <Features />
+        <ExtraFeatures />
         <DashboardPreview />
         <Workflow />
+        <Pricing />
+        <FAQ />
         <WhyUs />
         <CTA />
       </main>
@@ -38,10 +54,18 @@ export function Landing() {
 }
 
 function Header() {
+  const [open, setOpen] = useState(false);
+  const links = [
+    { href: "#features", label: "Features" },
+    { href: "#preview", label: "Dashboard" },
+    { href: "#workflow", label: "Workflow" },
+    { href: "#pricing", label: "Pricing" },
+    { href: "#faq", label: "FAQ" },
+  ];
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-lg"
             style={{ background: "var(--gradient-primary)" }}
@@ -49,18 +73,57 @@ function Header() {
             <Briefcase className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="text-lg font-bold tracking-tight">Flowdesk</span>
-        </div>
+        </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#features" className="transition-colors hover:text-foreground">Features</a>
-          <a href="#preview" className="transition-colors hover:text-foreground">Dashboard</a>
-          <a href="#workflow" className="transition-colors hover:text-foreground">Workflow</a>
-          <a href="#why" className="transition-colors hover:text-foreground">Why us</a>
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="transition-colors hover:text-foreground">
+              {l.label}
+            </a>
+          ))}
         </nav>
-        <Button size="sm" className="shadow-sm">
-          Request Proposal
-          <ArrowRight className="ml-1 h-4 w-4" />
-        </Button>
+        <div className="hidden items-center gap-2 md:flex">
+          <Button asChild size="sm" variant="ghost">
+            <Link to="/login">Sign in</Link>
+          </Button>
+          <Button asChild size="sm" className="shadow-sm" style={{ background: "var(--gradient-primary)" }}>
+            <Link to="/signup">
+              Get started
+              <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+        <button
+          className="md:hidden rounded-md border border-border p-2"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
       </div>
+      {open && (
+        <div className="border-t border-border bg-background md:hidden">
+          <div className="flex flex-col px-6 py-4">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+              >
+                {l.label}
+              </a>
+            ))}
+            <div className="mt-2 flex gap-2">
+              <Button asChild size="sm" variant="outline" className="flex-1">
+                <Link to="/login">Sign in</Link>
+              </Button>
+              <Button asChild size="sm" className="flex-1" style={{ background: "var(--gradient-primary)" }}>
+                <Link to="/signup">Get started</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
