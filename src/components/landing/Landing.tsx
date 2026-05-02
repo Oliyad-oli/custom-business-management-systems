@@ -162,15 +162,18 @@ function Hero() {
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
+            asChild
             size="lg"
             className="h-12 px-8 text-base shadow-lg"
             style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}
           >
-            Start your project
-            <ArrowRight className="ml-2 h-4 w-4" />
+            <Link to="/signup">
+              Start free trial
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
-          <Button size="lg" variant="outline" className="h-12 px-8 text-base">
-            View live demo
+          <Button asChild size="lg" variant="outline" className="h-12 px-8 text-base">
+            <a href="#preview">View live demo</a>
           </Button>
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
