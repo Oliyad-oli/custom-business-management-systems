@@ -48,8 +48,14 @@ export function AuthShell({
       </div>
 
       {/* Right: visual */}
-      <div className="relative hidden overflow-hidden lg:block" style={{ background: "var(--gradient-hero)" }}>
-        <div className="pointer-events-none absolute inset-0 opacity-30" style={{ background: "radial-gradient(circle at 30% 20%, white, transparent 50%)" }} />
+      <div
+        className="relative hidden overflow-hidden lg:block"
+        style={{ background: "var(--gradient-hero)" }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{ background: "radial-gradient(circle at 30% 20%, white, transparent 50%)" }}
+        />
         <div className="relative flex h-full flex-col justify-between p-12 text-primary-foreground">
           <div className="text-sm opacity-90">A custom business management system</div>
           <div>
@@ -59,7 +65,7 @@ export function AuthShell({
             <div className="mt-6 flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur" />
               <div>
-                <div className="font-semibold">Sarah Mitchell</div>
+                <div className="font-semibold">James Peter</div>
                 <div className="text-sm opacity-80">Operations Director, Bright Tech</div>
               </div>
             </div>
